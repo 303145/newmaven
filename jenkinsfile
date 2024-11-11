@@ -30,7 +30,7 @@ pipeline
             steps
             {
                 git 'https://github.com/IntelliqDevops/FunctionalTesting.git'
-                sh 'java -jar /var/lib/jenkins/workspace/Declarativepipeline1/testing.jar'
+                sh 'java -jar /var/lib/jenkins/workspace/Declaratoivepipeline2/testing.jar'
             }
         }
         stage('contdelivery')
