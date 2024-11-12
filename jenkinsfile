@@ -1,6 +1,6 @@
 pipeline
 {
-    agent any
+    agent any 
     stages
     {
         stage('contDownload')
@@ -16,13 +16,12 @@ pipeline
             {
                 sh 'mvn package'
             }
-            
         }
         stage('contDeployment')
         {
             steps
             {
-                deploy adapters: [tomcat9(credentialsId: '03f70824-363f-4615-beff-2e0d5f3dd3b9', path: '', url: 'http://172.31.20.82:8080')], contextPath: 'Testapp1', war: '**/*.war'
+                sh 'scp /var/lib/jenkins/workspace/Declarativepipeline3/webapp/target/webapp.war ubuntu@172.31.20.82:/var/lib/tomcat10/webapps/Testapp.war'
             }
         }
         stage('contTesting')
@@ -30,16 +29,15 @@ pipeline
             steps
             {
                 git 'https://github.com/IntelliqDevops/FunctionalTesting.git'
-                sh 'java -jar /var/lib/jenkins/workspace/Declaratoivepipeline2/testing.jar'
+                sh 'java -jar /var/lib/jenkins/workspace/Declarativepipeline3/testing.jar'
             }
         }
-        stage('contdelivery')
+        stage('contDelivery')
         {
             steps
             {
-                deploy adapters: [tomcat9(credentialsId: '03f70824-363f-4615-beff-2e0d5f3dd3b9', path: '', url: 'http://172.31.29.145:8080')], contextPath: 'Prodapp1', war: '**/*.war'
+                 deploy adapters: [tomcat9(credentialsId: '03f70824-363f-4615-beff-2e0d5f3dd3b9', path: '', url: 'http://172.31.29.145:8080')], contextPath: 'Prodapp', war: '**/*.war'
             }
         }
-        
     }
 }
