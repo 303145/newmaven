@@ -45,15 +45,6 @@ pipeline
                 }
             }
         }
-        stage('contDelivery')
-        {
-            steps
-            {
-                script
-                {
-                     cicd.deployTomcat("Declarativepipelinewithsharedpipeline","172.31.29.145","Prodapp1")
-                }
-            }
-        }
+       
     }
 }
