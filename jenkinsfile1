@@ -1,0 +1,44 @@
+pipeline
+{
+    agent any
+    stages
+    {
+        stage('continuos download')
+        {
+            steps
+            {
+                git 'https://github.com/303145/newmaven.git'
+            }
+        }
+        stage('continuos build')
+        {
+            steps
+            {
+                sh 'mvn package'
+            }
+        }
+        stage('continuos deployment')
+        {
+            steps
+            {
+                sh 'scp /var/lib/jenkins/workspace/Declarativepipeline1/webapp/target/webapp.war ubuntu@172.31.82.71:/var/lib/tomcat10/webapps/testapp1.war'
+            }
+        }
+        stage('continuos testing')
+        {
+            steps
+            {
+                git 'https://github.com/303145/FunctionalTesting.git'
+                sh 'java -jar /var/lib/jenkins/workspace/Declarativepipeline1/testing.jar '
+            }
+        }
+        stage('continuos delivery')
+        {
+            steps
+            {
+                sh 'scp /var/lib/jenkins/workspace/Declarativepipeline1/webapp/target/webapp.war ubuntu@172.31.80.113:/var/lib/tomcat10/webapps/prodapp1.war'
+            }
+        }
+    }
+}
+
